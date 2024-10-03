@@ -12,6 +12,8 @@ import Profile from "./Pages/Profile";
 import AdminUpload from "./Pages/AdminUpload";
 import DisplayAdmin from "./Pages/DisplayAdmin";
 import EditEvent from "./Pages/EditEvent";
+import DisplayUser from "./Pages/DisplayUser";
+import VendorDetails from "./Pages/VendorDetails";
 
 const App = () => {
   return (
@@ -40,6 +42,9 @@ const App = () => {
           <Route path="/createevent" element={<AdminUpload />} />
           <Route path="/display" element={<DisplayAdmin />} />
           <Route path="/edit/:id" element={<EditEvent />} />
+
+          <Route path="/displayuser" element={<DisplayUser />} />
+          <Route path="/vendor-details/:id" element={<VendorDetails />} />
         </Routes>
       </BrowserRouter>
     </div>
