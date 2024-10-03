@@ -91,7 +91,7 @@ const DisplayUser = () => {
                 </div>
 
                 <div className="card-body">
-                  <div className="text-center d-flex gap-5">
+                  <div className="text-center">
                     <button
                       className="btn btn-primary"
                       onClick={() => navigate(`/vendor-details/${event._id}`)}
