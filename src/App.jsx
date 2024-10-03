@@ -9,6 +9,9 @@ import AuthenticatedRoute from "./Components/AuthenticateRoute";
 import UserDashboard from "./Pages/UserDashboard";
 import AdminDashboard from "./Pages/AdminDashboard";
 import Profile from "./Pages/Profile";
+import AdminUpload from "./Pages/AdminUpload";
+import DisplayAdmin from "./Pages/DisplayAdmin";
+import EditEvent from "./Pages/EditEvent";
 
 const App = () => {
   return (
@@ -34,6 +37,9 @@ const App = () => {
             }
           />
           <Route path="/profile" element={<Profile />} />
+          <Route path="/createevent" element={<AdminUpload />} />
+          <Route path="/display" element={<DisplayAdmin />} />
+          <Route path="/edit/:id" element={<EditEvent />} />
         </Routes>
       </BrowserRouter>
     </div>
