@@ -18,7 +18,7 @@ const Profile = () => {
 
   return (
     <div className="container mt-4">
-      <h1 className="text-center">Profile</h1>
+      <h3 className="text-center">Profile</h3>
       <div className="d-flex justify-content-center">
         {isAuthenticated ? (
           <div
@@ -45,7 +45,7 @@ const Profile = () => {
               </button>
             </div>
             <div className="card-body">
-              <h1 className="card-title">{userData.user.username}</h1>
+              <h3 className="card-title">{userData.user.username}</h3>
               <h4 className="card-text">{userData.user.email}</h4>
             </div>
           </div>
