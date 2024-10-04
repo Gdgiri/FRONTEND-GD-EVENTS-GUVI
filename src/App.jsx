@@ -18,6 +18,7 @@ import CreateEventStylist from "./Pages/CreateEventStylist";
 import EventStylistList from "./Pages/EventStylistList";
 import AdminEventStylistList from "./Pages/AdminEventStylist";
 import AdminEditStylist from "./Pages/AdminEditStylist";
+import Payment from "./Pages/Payment";
 
 const App = () => {
   return (
@@ -57,6 +58,7 @@ const App = () => {
             element={<AdminEventStylistList />}
           />
           <Route path="/admineditstylist/:id" element={<AdminEditStylist />} />
+          <Route path="/payment" element={<Payment />} />
         </Routes>
       </BrowserRouter>
     </div>

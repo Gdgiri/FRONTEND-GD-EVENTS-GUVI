@@ -12,6 +12,7 @@ const VendorDetails = () => {
     photographer: false,
     entertainer: false,
     beautician: false,
+    transport: false, // Include this line if transport is needed
   });
   const [totalAmount, setTotalAmount] = useState(0);
 
@@ -25,7 +26,7 @@ const VendorDetails = () => {
         `http://localhost:5000/api/event/getevent/${id}` // Adjust your API endpoint
       );
       setEventDetails(response.data.result);
-      setTotalAmount(response.data.result.venueAmount); // Initialize total with venue amount
+      setTotalAmount(response.data.result.venueAmount || 0); // Initialize total with venue amount
     } catch (error) {
       console.error("Error fetching event details:", error);
     } finally {
@@ -34,7 +35,6 @@ const VendorDetails = () => {
   };
 
   const handleVendorSelection = (vendor) => {
-    // Toggle the selection for the vendor and adjust total amount
     const isSelected = !selectedVendors[vendor];
     const vendorAmount = eventDetails[`${vendor}Amount`] || 0;
 
@@ -52,8 +52,8 @@ const VendorDetails = () => {
   };
 
   const handleBooking = () => {
-    alert(`Booking successful! Total amount: ₹${totalAmount}`);
-    navigate("payment");
+    // Navigate to the EventStylistList if the user has selected a decoration (event stylist)
+    navigate("/eventstylist", { state: { totalAmount } });
   };
 
   if (loading) {
@@ -117,19 +117,7 @@ const VendorDetails = () => {
           Photographer - ₹{eventDetails.photographerAmount || 0}
         </label>
       </div>
-      <div className="form-check">
-        <input
-          type="checkbox"
-          className="form-check-input"
-          id="decoration"
-          checked={selectedVendors.decoration}
-          onChange={() => handleVendorSelection("decoration")}
-        />
-        <label className="form-check-label" htmlFor="decoration">
-          Decoration - ₹{eventDetails.eventStylistAmount || 0}
-        </label>
-        <button>Book</button>
-      </div>
+
       <div className="form-check">
         <input
           type="checkbox"

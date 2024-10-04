@@ -1,12 +1,17 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom"; // useLocation to get the passed state
 
 const EventStylistList = () => {
+  const location = useLocation();
   const [eventStylists, setEventStylists] = useState([]);
   const [selectedServices, setSelectedServices] = useState({});
   const [totalStyleAmount, setTotalStyleAmount] = useState(0);
+  const [totalAmount, setTotalAmount] = useState(
+    location.state?.totalAmount || 0
+  ); // Initialize with the passed vendor total amount
   const [errorMessage, setErrorMessage] = useState("");
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -15,11 +20,7 @@ const EventStylistList = () => {
         const response = await axios.get(
           "http://localhost:5000/api/event/getallstylist"
         );
-        if (Array.isArray(response.data.result)) {
-          setEventStylists(response.data.result);
-        } else {
-          setErrorMessage("Unexpected response format. Please try again.");
-        }
+        setEventStylists(response.data.result); // Assuming it's always an array
       } catch (error) {
         setErrorMessage("Failed to fetch event stylists. Please try again.");
         console.error(error);
@@ -30,28 +31,39 @@ const EventStylistList = () => {
   }, []);
 
   const handleServiceChange = (stylistId, serviceLabel, servicePrice) => {
-    const currentServices = { ...selectedServices };
-    const key = `${stylistId}-${serviceLabel}`;
+    setSelectedServices((prevServices) => {
+      const updatedServices = { ...prevServices };
+      const key = `${stylistId}-${serviceLabel}`;
 
-    if (currentServices[key]) {
-      delete currentServices[key];
-      setTotalStyleAmount((prev) => prev - servicePrice);
-    } else {
-      currentServices[key] = { label: serviceLabel, price: servicePrice };
-      setTotalStyleAmount((prev) => prev + servicePrice);
-    }
+      if (updatedServices[key]) {
+        // Deselect service, remove its price from total
+        delete updatedServices[key];
+        setTotalStyleAmount((prev) => prev - servicePrice);
+      } else {
+        // Select service, add its price to total
+        updatedServices[key] = { label: serviceLabel, price: servicePrice };
+        setTotalStyleAmount((prev) => prev + servicePrice);
+      }
 
-    setSelectedServices(currentServices);
+      return updatedServices;
+    });
   };
 
   const handleSubmit = async () => {
     const selectedItems = Object.values(selectedServices);
+    if (selectedItems.length === 0) {
+      setErrorMessage("Please select at least one service.");
+      return;
+    }
+
+    setIsSubmitting(true); // Start submission
+    setErrorMessage(""); // Clear previous errors
+
+    const grandTotal = totalAmount + totalStyleAmount; // Calculate the grand total
     const payload = {
       totalStyleAmount,
       selectedItems,
     };
-
-    console.log("Payload to send:", payload); // Log the payload
 
     try {
       const response = await axios.post(
@@ -59,11 +71,27 @@ const EventStylistList = () => {
         payload
       );
       console.log(response.data); // Log response to check if the request was successful
-      navigate("/displayuser");
+      navigate(`/payment`, {
+        state: {
+          grandTotal, // Pass grand total to payment page
+          totalStyleAmount,
+          totalAmount, // Pass individual amounts too
+          selectedItems,
+        },
+      });
     } catch (error) {
       console.error("Error saving selection:", error);
       setErrorMessage("Failed to save selection. Please try again.");
+    } finally {
+      setIsSubmitting(false); // End submission
     }
+  };
+
+  const handleSkip = () => {
+    const grandTotal = totalAmount; // No stylist services selected, so grand total is just totalAmount
+    navigate("/payment", {
+      state: { grandTotal, totalAmount }, // Pass totalAmount and grandTotal to payment page
+    });
   };
 
   return (
@@ -110,13 +138,19 @@ const EventStylistList = () => {
           ))}
         </div>
       )}
-      <h4>Total Amount: ₹{totalStyleAmount}</h4>
+      {/* Display Vendor Total Amount and Added Style Amount */}
+      <h4>Vendor Total Amount: ₹{location.state?.totalAmount || 0}</h4>
+      <h4>Selected Style Services Total: ₹{totalStyleAmount}</h4>
+      <h4>Grand Total: ₹{totalAmount + totalStyleAmount}</h4>
       <button
-        className="btn btn-primary"
+        className="btn btn-primary me-2"
         onClick={handleSubmit}
-        disabled={totalStyleAmount === 0}
+        disabled={totalStyleAmount === 0 || isSubmitting}
       >
-        Proceed to Dashboard
+        {isSubmitting ? "Processing..." : "Proceed to Dashboard"}
+      </button>
+      <button className="btn btn-secondary" onClick={handleSkip}>
+        Skip and Continue to Payment
       </button>
     </div>
   );
