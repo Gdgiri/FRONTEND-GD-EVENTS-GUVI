@@ -128,6 +128,7 @@ const VendorDetails = () => {
         <label className="form-check-label" htmlFor="decoration">
           Decoration - ₹{eventDetails.eventStylistAmount || 0}
         </label>
+        <button>Book</button>
       </div>
       <div className="form-check">
         <input

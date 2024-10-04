@@ -14,6 +14,10 @@ import DisplayAdmin from "./Pages/DisplayAdmin";
 import EditEvent from "./Pages/EditEvent";
 import DisplayUser from "./Pages/DisplayUser";
 import VendorDetails from "./Pages/VendorDetails";
+import CreateEventStylist from "./Pages/CreateEventStylist";
+import EventStylistList from "./Pages/EventStylistList";
+import AdminEventStylistList from "./Pages/AdminEventStylist";
+import AdminEditStylist from "./Pages/AdminEditStylist";
 
 const App = () => {
   return (
@@ -45,6 +49,14 @@ const App = () => {
 
           <Route path="/displayuser" element={<DisplayUser />} />
           <Route path="/vendor-details/:id" element={<VendorDetails />} />
+
+          <Route path="/createstylist" element={<CreateEventStylist />} />
+          <Route path="/eventstylist" element={<EventStylistList />} />
+          <Route
+            path="/admineventstylist"
+            element={<AdminEventStylistList />}
+          />
+          <Route path="/admineditstylist/:id" element={<AdminEditStylist />} />
         </Routes>
       </BrowserRouter>
     </div>
