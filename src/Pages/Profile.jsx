@@ -18,39 +18,47 @@ const Profile = () => {
 
   return (
     <div className="container mt-4">
-      <h3 className="text-center">Profile</h3>
+      <h3 className="text-center mb-4">Profile</h3>
       <div className="d-flex justify-content-center">
         {isAuthenticated ? (
           <div
-            className="card text-center m-3"
-            style={{ width: "20rem", height: "29rem" }}
+            className="card text-center shadow-sm"
+            style={{ width: "20rem", height: "30rem" }}
           >
-            <div className="card-header">
-              <button
-                className="btn btn-warning rounded-circle"
-                type="button"
-                id="userDropdown"
-                data-bs-toggle="dropdown"
-                aria-expanded="false"
+            <div className="card-header bg-secondary text-white py-5">
+              <div
+                className="rounded-circle d-flex align-items-center justify-content-center mx-auto bg-light"
                 style={{
-                  width: "200px",
-                  height: "200px",
-                  fontSize: "1.5rem",
-                  fontWeight: "bold",
-                  backgroundColor: "#6c757d",
-                  color: "white",
+                  width: "150px",
+                  height: "150px",
+                  fontSize: "3rem",
+                  color: "black",
                 }}
               >
                 {userInitial}
-              </button>
+              </div>
             </div>
             <div className="card-body">
               <h3 className="card-title">{userData.user.username}</h3>
-              <h4 className="card-text">{userData.user.email}</h4>
+              <h4 className="card-text text-muted">{userData.user.email}</h4>
+            </div>
+            <div className="card-footer">
+              {/* <Link to="/edit-profile" className="btn btn-primary">
+                Edit Profile
+              </Link> */}
+              <button
+                className="btn btn-danger ms-2"
+                onClick={() => {
+                  // Add logout logic or action here
+                  navigate("/user");
+                }}
+              >
+                back
+              </button>
             </div>
           </div>
         ) : (
-          <h1>No profile</h1>
+          <h1>No Profile Available</h1>
         )}
       </div>
     </div>

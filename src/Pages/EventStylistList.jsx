@@ -9,9 +9,10 @@ const EventStylistList = () => {
   const [totalStyleAmount, setTotalStyleAmount] = useState(0);
   const [totalAmount, setTotalAmount] = useState(
     location.state?.totalAmount || 0
-  ); // Initialize with the passed vendor total amount
+  );
   const [errorMessage, setErrorMessage] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [userPreference, setUserPreference] = useState("");
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -20,7 +21,7 @@ const EventStylistList = () => {
         const response = await axios.get(
           "http://localhost:5000/api/event/getallstylist"
         );
-        setEventStylists(response.data.result); // Assuming it's always an array
+        setEventStylists(response.data.result);
       } catch (error) {
         setErrorMessage("Failed to fetch event stylists. Please try again.");
         console.error(error);
@@ -36,11 +37,9 @@ const EventStylistList = () => {
       const key = `${stylistId}-${serviceLabel}`;
 
       if (updatedServices[key]) {
-        // Deselect service, remove its price from total
         delete updatedServices[key];
         setTotalStyleAmount((prev) => prev - servicePrice);
       } else {
-        // Select service, add its price to total
         updatedServices[key] = { label: serviceLabel, price: servicePrice };
         setTotalStyleAmount((prev) => prev + servicePrice);
       }
@@ -56,13 +55,14 @@ const EventStylistList = () => {
       return;
     }
 
-    setIsSubmitting(true); // Start submission
-    setErrorMessage(""); // Clear previous errors
+    setIsSubmitting(true);
+    setErrorMessage("");
 
-    const grandTotal = totalAmount + totalStyleAmount; // Calculate the grand total
+    const grandTotal = totalAmount + totalStyleAmount;
     const payload = {
       totalStyleAmount,
       selectedItems,
+      userPreference,
     };
 
     try {
@@ -70,55 +70,57 @@ const EventStylistList = () => {
         "http://localhost:5000/api/event/createstylistselection",
         payload
       );
-      console.log(response.data); // Log response to check if the request was successful
       navigate(`/payment`, {
         state: {
-          grandTotal, // Pass grand total to payment page
+          grandTotal,
           totalStyleAmount,
-          totalAmount, // Pass individual amounts too
+          totalAmount,
           selectedItems,
+          userPreference,
         },
       });
     } catch (error) {
       console.error("Error saving selection:", error);
       setErrorMessage("Failed to save selection. Please try again.");
     } finally {
-      setIsSubmitting(false); // End submission
+      setIsSubmitting(false);
     }
   };
 
   const handleSkip = () => {
-    const grandTotal = totalAmount; // No stylist services selected, so grand total is just totalAmount
+    const grandTotal = totalAmount;
     navigate("/payment", {
-      state: { grandTotal, totalAmount }, // Pass totalAmount and grandTotal to payment page
+      state: { grandTotal, totalAmount },
     });
   };
 
   return (
-    <div className="container mt-4">
-      <h2>Event Stylists</h2>
+    <div className="container mt-5">
+      <h2 className="text-center mb-4">Select Your Event Stylist</h2>
       {errorMessage && <div className="alert alert-danger">{errorMessage}</div>}
+
       {eventStylists.length === 0 ? (
-        <p>No event stylists available.</p>
+        <p className="text-center">No event stylists available.</p>
       ) : (
         <div className="row">
           {eventStylists.map((stylist) => (
-            <div className="col-md-4 mb-4" key={stylist._id}>
-              <div className="card">
+            <div className="col-lg-4 col-md-6 mb-4" key={stylist._id}>
+              <div className="card shadow-sm h-100">
                 <img
                   src={stylist.imgUrl}
                   alt={stylist.name}
                   className="card-img-top"
-                  style={{ maxHeight: "150px", objectFit: "cover" }}
+                  style={{ maxHeight: "200px", objectFit: "cover" }}
                 />
                 <div className="card-body">
-                  <h5 className="card-title">{stylist.name}</h5>
+                  <h5 className="card-title text-center">{stylist.name}</h5>
                   <ul className="list-group list-group-flush">
                     {stylist.services.map((service, index) => (
                       <li key={index} className="list-group-item">
-                        <label>
+                        <label className="form-check-label">
                           <input
                             type="checkbox"
+                            className="form-check-input me-2"
                             onChange={() =>
                               handleServiceChange(
                                 stylist._id,
@@ -138,20 +140,39 @@ const EventStylistList = () => {
           ))}
         </div>
       )}
-      {/* Display Vendor Total Amount and Added Style Amount */}
-      <h4>Vendor Total Amount: ₹{location.state?.totalAmount || 0}</h4>
-      <h4>Selected Style Services Total: ₹{totalStyleAmount}</h4>
-      <h4>Grand Total: ₹{totalAmount + totalStyleAmount}</h4>
-      <button
-        className="btn btn-primary me-2"
-        onClick={handleSubmit}
-        disabled={totalStyleAmount === 0 || isSubmitting}
-      >
-        {isSubmitting ? "Processing..." : "Proceed to Dashboard"}
-      </button>
-      <button className="btn btn-secondary" onClick={handleSkip}>
-        Skip and Continue to Payment
-      </button>
+
+      <div className="mt-5 ">
+        <h4>Vendor Total Amount: ₹{location.state?.totalAmount || 0}</h4>
+        <h4>Selected Style Services Total: ₹{totalStyleAmount}</h4>
+        <h4>Grand Total: ₹{totalAmount + totalStyleAmount}</h4>
+      </div>
+
+      {/* User Preferences */}
+      <div className="form-group mt-4">
+        <label htmlFor="userPreference">Your Preferences:</label>
+        <textarea
+          id="userPreference"
+          className="form-control"
+          rows="4"
+          value={userPreference}
+          onChange={(e) => setUserPreference(e.target.value)}
+          placeholder="Enter any specific preferences for event styling..."
+        ></textarea>
+      </div>
+
+      {/* Buttons */}
+      <div className="d-flex justify-content-center mt-4">
+        <button
+          className="btn btn-primary me-3"
+          onClick={handleSubmit}
+          disabled={totalStyleAmount === 0 || isSubmitting}
+        >
+          {isSubmitting ? "Processing..." : "Proceed to Payment"}
+        </button>
+        <button className="btn btn-secondary" onClick={handleSkip}>
+          Skip and Continue to Payment
+        </button>
+      </div>
     </div>
   );
 };

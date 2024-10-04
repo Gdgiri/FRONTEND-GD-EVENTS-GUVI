@@ -18,7 +18,9 @@ import CreateEventStylist from "./Pages/CreateEventStylist";
 import EventStylistList from "./Pages/EventStylistList";
 import AdminEventStylistList from "./Pages/AdminEventStylist";
 import AdminEditStylist from "./Pages/AdminEditStylist";
-import Payment from "./Pages/Payment";
+import StripeProduct from "./Pages/StripeProduct";
+import NotAuthorized from "./Pages/NotAuthorized";
+import PageNot from "./Pages/PageNot";
 
 const App = () => {
   return (
@@ -43,6 +45,8 @@ const App = () => {
               />
             }
           />
+          <Route path="*" element={<PageNot />} />
+          <Route path="/not-authorized" element={<NotAuthorized />} />
           <Route path="/profile" element={<Profile />} />
           <Route path="/createevent" element={<AdminUpload />} />
           <Route path="/display" element={<DisplayAdmin />} />
@@ -58,7 +62,8 @@ const App = () => {
             element={<AdminEventStylistList />}
           />
           <Route path="/admineditstylist/:id" element={<AdminEditStylist />} />
-          <Route path="/payment" element={<Payment />} />
+          {/* <Route path="/payment" element={<Payment />} /> */}
+          <Route path="/payment" element={<StripeProduct />} />
         </Routes>
       </BrowserRouter>
     </div>

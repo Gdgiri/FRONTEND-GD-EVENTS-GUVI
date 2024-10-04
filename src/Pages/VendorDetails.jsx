@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
+import "bootstrap/dist/css/bootstrap.min.css";
 
 const VendorDetails = () => {
   const { id } = useParams(); // Get event ID from the URL
@@ -65,105 +66,118 @@ const VendorDetails = () => {
   }
 
   return (
-    <div className="container">
-      <h2>Vendor Details</h2>
-      <div className="card mb-6 shadow-sm">
-        <div className="row m-2 bg-light">
-          <div className="col-md-5">
+    <div className="container my-5">
+      <h2 className="text-center mb-4">Vendor Details</h2>
+      <div className="card mb-4 shadow-sm">
+        <div className="row g-0">
+          <div className="col-md-4">
             <img
               src={eventDetails.venueImg}
-              className="card-img img-fluid"
+              className="img-fluid rounded-start"
               alt={eventDetails.venueName}
-              style={{ height: "200px", width: "200px" }}
+              style={{ objectFit: "cover", height: "100%" }}
             />
           </div>
-          <div className="col-md-6">
-            <div className="card-body d-flex flex-column justify-content-center">
-              <h5 className="card-title">
-                Venue Name: {eventDetails.venueName}
-              </h5>
-              <h5 className="card-text">
-                Venue Place: {eventDetails.venuePlace}
-              </h5>
-              <h5 className="card-text">Price: ₹{eventDetails.venueAmount}</h5>
+          <div className="col-md-8">
+            <div className="card-body">
+              <h4 className="card-title">{eventDetails.venueName}</h4>
+              <p className="card-text">
+                <strong>Place: </strong> {eventDetails.venuePlace}
+              </p>
+              <p className="card-text">
+                <strong>Price: </strong> ₹{eventDetails.venueAmount}
+              </p>
             </div>
           </div>
         </div>
       </div>
 
       {/* Vendor Selection */}
-      <h3>Select Vendors</h3>
-      <div className="form-check">
-        <input
-          type="checkbox"
-          className="form-check-input"
-          id="catering"
-          checked={selectedVendors.catering}
-          onChange={() => handleVendorSelection("catering")}
-        />
-        <label className="form-check-label" htmlFor="catering">
-          Catering - ₹{eventDetails.cateringAmount || 0}
-        </label>
-      </div>
-      <div className="form-check">
-        <input
-          type="checkbox"
-          className="form-check-input"
-          id="photographer"
-          checked={selectedVendors.photographer}
-          onChange={() => handleVendorSelection("photographer")}
-        />
-        <label className="form-check-label" htmlFor="photographer">
-          Photographer - ₹{eventDetails.photographerAmount || 0}
-        </label>
-      </div>
-
-      <div className="form-check">
-        <input
-          type="checkbox"
-          className="form-check-input"
-          id="entertainer"
-          checked={selectedVendors.entertainer}
-          onChange={() => handleVendorSelection("entertainer")}
-        />
-        <label className="form-check-label" htmlFor="entertainer">
-          Entertainer - ₹{eventDetails.entertainerAmount || 0}
-        </label>
-      </div>
-      <div className="form-check">
-        <input
-          type="checkbox"
-          className="form-check-input"
-          id="beautician"
-          checked={selectedVendors.beautician}
-          onChange={() => handleVendorSelection("beautician")}
-        />
-        <label className="form-check-label" htmlFor="beautician">
-          Beautician - ₹{eventDetails.beauticianAmount || 0}
-        </label>
-      </div>
-      <div className="form-check">
-        <input
-          type="checkbox"
-          className="form-check-input"
-          id="transport"
-          checked={selectedVendors.transport}
-          onChange={() => handleVendorSelection("transport")}
-        />
-        <label className="form-check-label" htmlFor="transport">
-          Transport - ₹{eventDetails.transportAmount || 0}
-        </label>
+      <h3 className="mb-3">Select Vendors</h3>
+      <div className="row">
+        <div className="col-md-6 mb-3">
+          <div className="form-check">
+            <input
+              type="checkbox"
+              className="form-check-input"
+              id="catering"
+              checked={selectedVendors.catering}
+              onChange={() => handleVendorSelection("catering")}
+            />
+            <label className="form-check-label" htmlFor="catering">
+              Catering - ₹{eventDetails.cateringAmount || 0}
+            </label>
+          </div>
+        </div>
+        <div className="col-md-6 mb-3">
+          <div className="form-check">
+            <input
+              type="checkbox"
+              className="form-check-input"
+              id="photographer"
+              checked={selectedVendors.photographer}
+              onChange={() => handleVendorSelection("photographer")}
+            />
+            <label className="form-check-label" htmlFor="photographer">
+              Photographer - ₹{eventDetails.photographerAmount || 0}
+            </label>
+          </div>
+        </div>
+        <div className="col-md-6 mb-3">
+          <div className="form-check">
+            <input
+              type="checkbox"
+              className="form-check-input"
+              id="entertainer"
+              checked={selectedVendors.entertainer}
+              onChange={() => handleVendorSelection("entertainer")}
+            />
+            <label className="form-check-label" htmlFor="entertainer">
+              Entertainer - ₹{eventDetails.entertainerAmount || 0}
+            </label>
+          </div>
+        </div>
+        <div className="col-md-6 mb-3">
+          <div className="form-check">
+            <input
+              type="checkbox"
+              className="form-check-input"
+              id="beautician"
+              checked={selectedVendors.beautician}
+              onChange={() => handleVendorSelection("beautician")}
+            />
+            <label className="form-check-label" htmlFor="beautician">
+              Beautician - ₹{eventDetails.beauticianAmount || 0}
+            </label>
+          </div>
+        </div>
+        <div className="col-md-6 mb-3">
+          <div className="form-check">
+            <input
+              type="checkbox"
+              className="form-check-input"
+              id="transport"
+              checked={selectedVendors.transport}
+              onChange={() => handleVendorSelection("transport")}
+            />
+            <label className="form-check-label" htmlFor="transport">
+              Transport - ₹{eventDetails.transportAmount || 0}
+            </label>
+          </div>
+        </div>
       </div>
 
       {/* Display Total Amount */}
       <div className="mt-4">
-        <h4>Total Amount: ₹{totalAmount}</h4>
+        <h4 className="text-center">Total Amount: ₹{totalAmount}</h4>
       </div>
 
       {/* Book Button */}
-      <button className="btn btn-success mt-3" onClick={handleBooking}>
-        Book Now
-      </button>
+      <div className="text-center">
+        <button className="btn btn-success mt-4" onClick={handleBooking}>
+          Book Now
+        </button>
+      </div>
     </div>
   );
 };
