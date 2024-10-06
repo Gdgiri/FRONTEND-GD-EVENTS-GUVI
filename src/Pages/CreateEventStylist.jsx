@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import axios from "axios";
 import { app } from "../firebase"; // Import your Firebase app
 import { getDownloadURL, ref, uploadBytes, getStorage } from "firebase/storage"; // Import storage functions
+import { useNavigate } from "react-router-dom";
 
 const CreateEventStylist = () => {
   const [name, setName] = useState("");
@@ -9,7 +10,7 @@ const CreateEventStylist = () => {
   const [imgFile, setImgFile] = useState(null);
   const [errorMessage, setErrorMessage] = useState("");
   const [successMessage, setSuccessMessage] = useState("");
-
+  const navigate = useNavigate();
   const handleAddService = () => {
     setServices([...services, { label: "", price: "" }]);
   };
@@ -52,6 +53,7 @@ const CreateEventStylist = () => {
       setName("");
       setServices([{ label: "", price: "" }]);
       setImgFile(null);
+      navigate("/admineventstylist");
     } catch (error) {
       setErrorMessage("Failed to create event stylist. Please try again.");
       console.error(error);
