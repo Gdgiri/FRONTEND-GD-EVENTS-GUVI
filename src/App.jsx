@@ -29,7 +29,6 @@ import FrontPage from "./Pages/FrontPage";
 import Services from "./Pages/Services";
 import About from "./Pages/About";
 import AdminPrivateRoute from "./Components/AdminPrivateRoute";
-import AdminDashboardPrivate from "./Components/AdminDashboardPrivate";
 
 const App = () => {
   return (
