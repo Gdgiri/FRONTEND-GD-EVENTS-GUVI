@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import { useNavigate, useParams } from "react-router-dom";
+import "bootstrap/dist/css/bootstrap.min.css"; // Ensure Bootstrap is imported
 
 const ResetPassword = () => {
   const { token } = useParams();
@@ -50,84 +51,83 @@ const ResetPassword = () => {
   };
 
   return (
-    <div>
-      <div className="container d-flex align-items-center justify-content-center vh-55 pt-1 m-5">
-        <div className="row bg-white rounded shadow-lg overflow-hidden w-75">
-          <div className="col-md-6 d-flex align-items-center justify-content-center p-4">
-            <img
-              src="https://github.com/user-attachments/assets/c819cbe1-3451-4c97-8a3a-9f1f84bca852"
-              alt="GD Events"
-              className="img-fluid"
-            />
-          </div>
-          <div className="col-md-6 p-5 mt-5">
-            <h2 className="mb-4 text-center">Reset Password</h2>
+    <div className="container d-flex align-items-center justify-content-center vh-100 pt-1">
+      <div className="row bg-white rounded shadow-lg overflow-hidden w-100">
+        <div className="col-md-6 d-flex align-items-center justify-content-center p-4">
+          <img
+            src="https://github.com/user-attachments/assets/c819cbe1-3451-4c97-8a3a-9f1f84bca852"
+            alt="GD Events"
+            className="img-fluid"
+            style={{ maxHeight: "300px", objectFit: "contain" }} // Maintain aspect ratio
+          />
+        </div>
+        <div className="col-md-6 p-5">
+          <h2 className="mb-4 text-center">Reset Password</h2>
 
-            {/* Display success/error message */}
-            {formMessage && (
-              <div
-                className={`alert ${
-                  formMessage.includes("success")
-                    ? "alert-success"
-                    : "alert-danger"
-                } mb-3`}
-              >
-                {formMessage}
-              </div>
-            )}
-
-            <Formik
-              initialValues={{ password: "", confirmPassword: "" }}
-              validationSchema={validationSchema}
-              onSubmit={handleSubmit}
+          {/* Display success/error message */}
+          {formMessage && (
+            <div
+              className={`alert ${
+                formMessage.includes("success")
+                  ? "alert-success"
+                  : "alert-danger"
+              } mb-3`}
             >
-              {({ isSubmitting }) => (
-                <Form className="form">
-                  <div className="form-group mb-3">
-                    <label htmlFor="password">Password</label>
-                    <Field
-                      type="password"
-                      className="form-control"
-                      id="password"
-                      name="password"
-                      placeholder="Enter Your Password"
-                    />
-                    <ErrorMessage
-                      name="password"
-                      component="div"
-                      className="text-danger"
-                    />
-                  </div>
+              {formMessage}
+            </div>
+          )}
 
-                  <div className="form-group mb-3">
-                    <label htmlFor="confirmPassword">Confirm Password</label>
-                    <Field
-                      type="password"
-                      className="form-control"
-                      id="confirmPassword"
-                      name="confirmPassword"
-                      placeholder="Confirm Your Password"
-                    />
-                    <ErrorMessage
-                      name="confirmPassword"
-                      component="div"
-                      className="text-danger"
-                    />
-                  </div>
+          <Formik
+            initialValues={{ password: "", confirmPassword: "" }}
+            validationSchema={validationSchema}
+            onSubmit={handleSubmit}
+          >
+            {({ isSubmitting }) => (
+              <Form className="form">
+                <div className="form-group mb-3">
+                  <label htmlFor="password">Password</label>
+                  <Field
+                    type="password"
+                    className="form-control"
+                    id="password"
+                    name="password"
+                    placeholder="Enter Your Password"
+                  />
+                  <ErrorMessage
+                    name="password"
+                    component="div"
+                    className="text-danger"
+                  />
+                </div>
 
-                  <div className="d-flex justify-content-center">
-                    <button
-                      type="submit"
-                      className="btn btn-primary mt-2"
-                      disabled={isSubmitting}
-                    >
-                      Reset Password
-                    </button>
-                  </div>
-                </Form>
-              )}
-            </Formik>
-          </div>
+                <div className="form-group mb-3">
+                  <label htmlFor="confirmPassword">Confirm Password</label>
+                  <Field
+                    type="password"
+                    className="form-control"
+                    id="confirmPassword"
+                    name="confirmPassword"
+                    placeholder="Confirm Your Password"
+                  />
+                  <ErrorMessage
+                    name="confirmPassword"
+                    component="div"
+                    className="text-danger"
+                  />
+                </div>
+
+                <div className="d-flex justify-content-center">
+                  <button
+                    type="submit"
+                    className="btn btn-primary mt-2"
+                    disabled={isSubmitting}
+                  >
+                    Reset Password
+                  </button>
+                </div>
+              </Form>
+            )}
+          </Formik>
         </div>
       </div>
     </div>
