@@ -29,6 +29,7 @@ import FrontPage from "./Pages/FrontPage";
 import Services from "./Pages/Services";
 import About from "./Pages/About";
 import AdminPrivateRoute from "./Components/AdminPrivateRoute";
+import AdminDashboardPrivate from "./Components/AdminDashboardPrivate";
 
 const App = () => {
   return (
@@ -50,15 +51,18 @@ const App = () => {
               path="/user"
               element={<AuthenticatedRoute element={<UserDashboard />} />}
             />
-            <Route
-              path="/admin"
-              element={
-                <AuthenticatedRoute
-                  element={<AdminDashboard />}
-                  adminRoute={true}
-                />
-              }
-            />
+
+            <Route element={<AdminDashboardPrivate />}>
+              <Route
+                path="/admin"
+                element={
+                  <AuthenticatedRoute
+                    element={<AdminDashboard />}
+                    adminRoute={true}
+                  />
+                }
+              />
+            </Route>
             <Route path="*" element={<PageNot />} />
             <Route path="/not-authorized" element={<NotAuthorized />} />
             <Route path="/profile" element={<Profile />} />
@@ -70,6 +74,7 @@ const App = () => {
             <Route path="/edit/:id" element={<EditEvent />} />
             <Route path="/displayuser" element={<DisplayUser />} />
             <Route path="/vendor-details/:id" element={<VendorDetails />} />
+            
             <Route path="/createstylist" element={<CreateEventStylist />} />
             <Route path="/eventstylist" element={<EventStylistList />} />
             <Route
