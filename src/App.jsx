@@ -28,7 +28,6 @@ import { BookingProvider } from "./Context/BookingContext"; // Import BookingPro
 import FrontPage from "./Pages/FrontPage";
 import Services from "./Pages/Services";
 import About from "./Pages/About";
-import AdminPrivateRoute from "./Components/AdminPrivateRoute";
 
 const App = () => {
   return (
@@ -63,9 +62,7 @@ const App = () => {
             <Route path="*" element={<PageNot />} />
             <Route path="/not-authorized" element={<NotAuthorized />} />
             <Route path="/profile" element={<Profile />} />
-            <Route element={<AdminPrivateRoute />}>
-              <Route path="/createevent" element={<AdminUpload />} />
-            </Route>
+            <Route path="/createevent" element={<AdminUpload />} />
 
             <Route path="/display" element={<DisplayAdmin />} />
             <Route path="/edit/:id" element={<EditEvent />} />
