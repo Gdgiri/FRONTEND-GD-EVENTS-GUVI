@@ -1,14 +1,21 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
-import { Link, useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
 const DisplayUser = () => {
   const navigate = useNavigate();
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState("");
+  const location = useLocation();
+  const { budget } = location.state || {}; // Retrieve the total budget from location.state
+  const [remainingBudget, setRemainingBudget] = useState(budget); // Set initial remaining budget
 
+  console.log("Total Budget:", budget);
+  console.log("Remaining Budget:", remainingBudget);
+
+  // Fetching event data when the component mounts
   useEffect(() => {
     fetchEventData();
   }, []);
@@ -26,6 +33,29 @@ const DisplayUser = () => {
     }
   };
 
+  const handleBooking = (venueAmount, eventId, venueName, venuePlace) => {
+    const newRemainingBudget = remainingBudget - venueAmount;
+
+    // Check if the remaining budget allows for this booking
+    if (newRemainingBudget >= 0) {
+      setRemainingBudget(newRemainingBudget);
+
+      // Navigate to vendor-details and pass the total and remaining budgets
+      navigate(`/vendor-details/${eventId}`, {
+        state: {
+          totalBudget: budget, // Pass the total budget
+          remainingBudget: newRemainingBudget, // Pass the updated remaining budget
+          venueName: venueName, // Pass the venue name
+          venuePlace: venuePlace, // Pass the venue place
+          venueAmount: venueAmount // Pass the venue amount
+        },
+      });
+    } else {
+      alert("You don't have enough budget to book this venue.");
+    }
+  };
+
+  // Filtering event data based on search input
   const filteredData = data.filter((event) => {
     const venueNameMatch = event.venueName
       .toLowerCase()
@@ -38,12 +68,19 @@ const DisplayUser = () => {
     return venueNameMatch || venuePlaceMatch || venueAmountMatch;
   });
 
+  // Loading state
   if (loading) {
     return <div>Loading...</div>;
   }
 
   return (
     <div className="container">
+      {/* Budget Display: Total on the left, Remaining on the right */}
+      <div className="d-flex justify-content-between my-4">
+        <h3>Total Budget: ₹{budget}</h3>
+        <h3>Remaining Budget: ₹{remainingBudget}</h3>
+      </div>
+
       {/* Search Input */}
       <div className="d-flex justify-content-between mb-3 m-5">
         <div className="input-group ms-auto" style={{ width: "250px" }}>
@@ -94,7 +131,9 @@ const DisplayUser = () => {
                   <div className="text-center">
                     <button
                       className="btn btn-primary"
-                      onClick={() => navigate(`/vendor-details/${event._id}`)}
+                      onClick={() =>
+                        handleBooking(event.venueAmount, event._id, event.venueName, event.venuePlace)
+                      }
                     >
                       <span className="text-white">Book</span>
                     </button>

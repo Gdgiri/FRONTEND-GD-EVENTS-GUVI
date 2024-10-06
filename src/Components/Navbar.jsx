@@ -123,10 +123,10 @@ const Navbar = () => {
               About
             </Link>
             <Link
-              to="/events"
-              className={`nav-link ${path === "/events" ? "active" : ""}`}
+              to="/service"
+              className={`nav-link ${path === "/service" ? "active" : ""}`}
             >
-              Events
+              Services
             </Link>
           </div>
 

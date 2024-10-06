@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams, useNavigate, useLocation } from "react-router-dom";
 import axios from "axios";
 import "bootstrap/dist/css/bootstrap.min.css";
 
@@ -13,9 +13,12 @@ const VendorDetails = () => {
     photographer: false,
     entertainer: false,
     beautician: false,
-    transport: false, // Include this line if transport is needed
+    transport: false,
   });
   const [totalAmount, setTotalAmount] = useState(0);
+  const location = useLocation();
+  const { totalBudget, remainingBudget } = location.state || {};
+  console.log("totalAmount", totalAmount);
 
   useEffect(() => {
     fetchEventDetails();
@@ -39,10 +42,10 @@ const VendorDetails = () => {
     const isSelected = !selectedVendors[vendor];
     const vendorAmount = eventDetails[`${vendor}Amount`] || 0;
 
-    setSelectedVendors({
-      ...selectedVendors,
+    setSelectedVendors((prev) => ({
+      ...prev,
       [vendor]: isSelected,
-    });
+    }));
 
     // Update total amount based on selection
     if (isSelected) {
@@ -53,8 +56,21 @@ const VendorDetails = () => {
   };
 
   const handleBooking = () => {
-    // Navigate to the EventStylistList if the user has selected a decoration (event stylist)
-    navigate("/eventstylist", { state: { totalAmount } });
+    const newRemainingBudget =
+      remainingBudget - totalAmount + eventDetails.venueAmount; // Calculate the new remaining budget
+
+    // Navigate to the EventStylistList passing the total and remaining budgets
+    navigate("/eventstylist", {
+      state: {
+        totalAmount,
+        totalBudget, // Pass the total budget
+        remainingBudget: newRemainingBudget, // Pass the updated remaining budget
+        venueName: eventDetails.venueName, // Pass the venue name
+        venuePlace: eventDetails.venuePlace, // Pass the venue place
+        venueAmount: eventDetails.venueAmount, // Pass the venue amount
+        vendorImg: eventDetails.vendorImg,
+      },
+    });
   };
 
   if (loading) {
@@ -67,6 +83,14 @@ const VendorDetails = () => {
 
   return (
     <div className="container my-5">
+      <div className="d-flex justify-content-between my-4">
+        <h3>Total Budget: ₹{totalBudget}</h3>
+        <h3>
+          Remaining Budget: ₹
+          {remainingBudget - totalAmount + eventDetails.venueAmount}
+        </h3>{" "}
+        {/* Update remaining budget display */}
+      </div>
       <h2 className="text-center mb-4">Vendor Details</h2>
       <div className="card mb-4 shadow-sm">
         <div className="row g-0">

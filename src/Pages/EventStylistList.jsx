@@ -10,10 +10,17 @@ const EventStylistList = () => {
   const [totalAmount, setTotalAmount] = useState(
     location.state?.totalAmount || 0
   );
+  const { totalBudget, remainingBudget, venueName, venuePlace, venueAmount } =
+    location.state || {};
   const [errorMessage, setErrorMessage] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [userPreference, setUserPreference] = useState("");
   const navigate = useNavigate();
+  console.log("event", totalBudget);
+  console.log("event remain:", remainingBudget);
+  console.log("name:", venueName);
+  console.log("name:", venuePlace);
+  console.log("name:", venueAmount);
 
   useEffect(() => {
     const fetchEventStylists = async () => {
@@ -63,6 +70,7 @@ const EventStylistList = () => {
       totalStyleAmount,
       selectedItems,
       userPreference,
+      
     };
 
     try {
@@ -74,6 +82,9 @@ const EventStylistList = () => {
         state: {
           grandTotal,
           totalStyleAmount,
+          venueName,
+          venuePlace,
+          venueAmount,
           totalAmount,
           selectedItems,
           userPreference,
@@ -96,6 +107,11 @@ const EventStylistList = () => {
 
   return (
     <div className="container mt-5">
+      <div className="d-flex justify-content-between my-4">
+        <h3>Total Budget: ₹{totalBudget}</h3>
+        <h3>Remaining Budget: ₹{remainingBudget - totalStyleAmount}</h3>{" "}
+        {/* Update remaining budget display */}
+      </div>
       <h2 className="text-center mb-4">Select Your Event Stylist</h2>
       {errorMessage && <div className="alert alert-danger">{errorMessage}</div>}
 

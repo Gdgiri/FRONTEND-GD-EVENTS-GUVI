@@ -24,7 +24,8 @@ const Login = () => {
       .required("Password is required"),
   });
 
-  const handleSubmit = async (values, { resetForm }) => {
+  const handleSubmit = async (values, { resetForm, setSubmitting }) => {
+    setSubmitting(true);
     try {
       const resultAction = await dispatch(loginUser(values));
 
@@ -49,6 +50,8 @@ const Login = () => {
     } catch (error) {
       setMessage("An unexpected error occurred.");
       setIsError(true); // Set error state
+    } finally {
+      setSubmitting(false);
     }
   };
 

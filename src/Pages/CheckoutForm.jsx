@@ -1,12 +1,16 @@
+// src/Pages/CheckoutForm.js
 import React, { useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useStripe, useElements, CardElement } from "@stripe/react-stripe-js";
+import { useBooking } from "../Context/BookingContext"; // Import the useBooking hook
 import "./CheckoutForm.css"; // Import CSS for styling
 
 const CheckoutForm = () => {
   const location = useLocation();
   const totalAmount = location.state?.grandTotal; // Get total amount from state
-  const navigate = useNavigate(); // To redirect after success
+  const { venueName, venuePlace, vendorImg } = location.state || {};
+  const navigate = useNavigate();
+  const { addBooking } = useBooking(); // Access context
 
   const stripe = useStripe();
   const elements = useElements();
@@ -15,15 +19,15 @@ const CheckoutForm = () => {
   const [loading, setLoading] = useState(false); // For showing a loading spinner
 
   const handleSubmit = async (event) => {
-    event.preventDefault();
+    event.preventDefault(); // Prevent default form submission
 
     if (!stripe || !elements) {
-      return;
+      return; // Make sure Stripe.js has loaded
     }
 
-    setLoading(true); // Start loading
-
     const cardElement = elements.getElement(CardElement);
+
+    setLoading(true); // Start loading
 
     try {
       // Create a payment method using card details
@@ -55,13 +59,33 @@ const CheckoutForm = () => {
         throw new Error("Payment failed");
       }
 
+      // After successful payment, add booking to the database
+      await fetch("http://localhost:5000/api/bookings", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          venueName,
+          totalAmount, // Use totalAmount instead of venueAmount
+          venuePlace,
+          vendorImg,
+        }),
+      });
+
+      // If payment is successful, add booking to context
+      addBooking({ venueName, totalAmount, venuePlace, vendorImg });
       setSuccess(true);
       setError(null);
 
-      // Redirect to /data after successful payment
-
+      // Redirect to /booked after successful payment
+      // Pass the total amount and other details to the booked page
       setTimeout(() => {
-        navigate("/booked");
+        navigate("/booked", {
+          state: {
+            totalAmount,
+          },
+        });
       }, 1500);
     } catch (err) {
       setError(err.message);
@@ -75,7 +99,7 @@ const CheckoutForm = () => {
       <form onSubmit={handleSubmit} className="checkout-form">
         {error && (
           <div
-            className="error-message alert-danger "
+            className="error-message alert-danger"
             style={{
               padding: "20px",
               fontSize: "18px",
@@ -88,7 +112,7 @@ const CheckoutForm = () => {
         )}
         {success && (
           <div
-            className="success-message alert-success "
+            className="success-message alert-success"
             style={{
               padding: "20px",
               fontSize: "18px",
