@@ -11,7 +11,6 @@ const DisplayUser = () => {
   const location = useLocation();
   const { budget } = location.state || {}; // Retrieve the total budget from location.state
   const [remainingBudget, setRemainingBudget] = useState(budget); // Set initial remaining budget
-  const [bookedVenues, setBookedVenues] = useState([]); // To track booked venues
 
   console.log("Total Budget:", budget);
   console.log("Remaining Budget:", remainingBudget);
@@ -41,15 +40,6 @@ const DisplayUser = () => {
     if (newRemainingBudget >= 0) {
       setRemainingBudget(newRemainingBudget);
 
-      // Add the booked venue to the bookedVenues state
-      setBookedVenues((prev) => [
-        ...prev,
-        { eventId, venueName, venuePlace, venueAmount },
-      ]);
-
-      // Filter out the booked venue from the displayed data
-      setData((prev) => prev.filter((event) => event._id !== eventId));
-
       // Navigate to vendor-details and pass the total and remaining budgets
       navigate(`/vendor-details/${eventId}`, {
         state: {
@@ -63,29 +53,6 @@ const DisplayUser = () => {
     } else {
       alert("You don't have enough budget to book this venue.");
     }
-  };
-
-  // Handling booking deletion
-  const handleDeleteBooking = (index) => {
-    const bookingToDelete = bookedVenues[index];
-    const newRemainingBudget = remainingBudget + bookingToDelete.venueAmount;
-
-    // Restore the booked venue back to the data state
-    setData((prev) => [
-      ...prev,
-      {
-        _id: bookingToDelete.eventId,
-        venueName: bookingToDelete.venueName,
-        venuePlace: bookingToDelete.venuePlace,
-        venueAmount: bookingToDelete.venueAmount,
-      },
-    ]);
-
-    // Update the remaining budget
-    setRemainingBudget(newRemainingBudget);
-
-    // Remove the booking from the bookedVenues state
-    setBookedVenues((prev) => prev.filter((_, i) => i !== index));
   };
 
   // Filtering event data based on search input
@@ -184,38 +151,6 @@ const DisplayUser = () => {
           <div className="col-md-12">
             <p>No events found matching your search criteria.</p>
           </div>
-        )}
-      </div>
-
-      {/* Display booked venues */}
-      <div className="my-4">
-        <h3>Your Booked Venues:</h3>
-        {bookedVenues.length > 0 ? (
-          <div className="row">
-            {bookedVenues.map((booking, index) => (
-              <div className="col-md-6" key={index}>
-                <div className="card mb-3">
-                  <div className="card-body">
-                    <h5 className="card-title">Venue: {booking.venueName}</h5>
-                    <h6 className="card-subtitle mb-2 text-muted">
-                      Place: {booking.venuePlace}
-                    </h6>
-                    <h6 className="card-text">
-                      Amount: ₹{booking.venueAmount}
-                    </h6>
-                    <button
-                      className="btn btn-danger"
-                      onClick={() => handleDeleteBooking(index)}
-                    >
-                      Cancel Booking
-                    </button>
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
-        ) : (
-          <p>No bookings made.</p>
         )}
       </div>
     </div>
