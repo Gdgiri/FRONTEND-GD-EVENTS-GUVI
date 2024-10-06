@@ -23,7 +23,7 @@ const DisplayUser = () => {
   const fetchEventData = async () => {
     try {
       const response = await axios.get(
-        "http://localhost:5000/api/event/getallevent"
+        "https://backend-gd-events-guvi.onrender.com/api/event/getallevent"
       );
       setData(response.data.result); // Assuming response has a result field
     } catch (error) {
@@ -47,7 +47,7 @@ const DisplayUser = () => {
           remainingBudget: newRemainingBudget, // Pass the updated remaining budget
           venueName: venueName, // Pass the venue name
           venuePlace: venuePlace, // Pass the venue place
-          venueAmount: venueAmount // Pass the venue amount
+          venueAmount: venueAmount, // Pass the venue amount
         },
       });
     } else {
@@ -132,7 +132,12 @@ const DisplayUser = () => {
                     <button
                       className="btn btn-primary"
                       onClick={() =>
-                        handleBooking(event.venueAmount, event._id, event.venueName, event.venuePlace)
+                        handleBooking(
+                          event.venueAmount,
+                          event._id,
+                          event.venueName,
+                          event.venuePlace
+                        )
                       }
                     >
                       <span className="text-white">Book</span>

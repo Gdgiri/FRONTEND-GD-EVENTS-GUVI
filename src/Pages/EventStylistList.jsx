@@ -26,7 +26,7 @@ const EventStylistList = () => {
     const fetchEventStylists = async () => {
       try {
         const response = await axios.get(
-          "http://localhost:5000/api/event/getallstylist"
+          "https://backend-gd-events-guvi.onrender.com/api/event/getallstylist"
         );
         setEventStylists(response.data.result);
       } catch (error) {
@@ -70,12 +70,11 @@ const EventStylistList = () => {
       totalStyleAmount,
       selectedItems,
       userPreference,
-      
     };
 
     try {
       const response = await axios.post(
-        "http://localhost:5000/api/event/createstylistselection",
+        "https://backend-gd-events-guvi.onrender.com/api/event/createstylistselection",
         payload
       );
       navigate(`/payment`, {

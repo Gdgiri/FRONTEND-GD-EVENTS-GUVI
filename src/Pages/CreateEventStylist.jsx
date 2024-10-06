@@ -40,7 +40,7 @@ const CreateEventStylist = () => {
       const downloadURL = await getDownloadURL(snapshot.ref);
 
       const response = await axios.post(
-        "http://localhost:5000/api/event/createstylist",
+        "https://backend-gd-events-guvi.onrender.com/api/event/createstylist",
         {
           name,
           imgUrl: downloadURL,

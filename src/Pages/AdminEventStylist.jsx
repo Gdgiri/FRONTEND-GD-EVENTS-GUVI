@@ -11,7 +11,7 @@ const AdminEventStylistList = () => {
     const fetchEventStylists = async () => {
       try {
         const response = await axios.get(
-          "http://localhost:5000/api/event/getallstylist"
+          "https://backend-gd-events-guvi.onrender.com/api/event/getallstylist"
         );
 
         // Ensure response.data is an array
@@ -36,7 +36,7 @@ const AdminEventStylistList = () => {
   const handleDelete = async (stylistId) => {
     try {
       await axios.delete(
-        `http://localhost:5000/api/event/deletestylist/${stylistId}`
+        `https://backend-gd-events-guvi.onrender.com/api/event/deletestylist/${stylistId}`
       );
       setEventStylists(
         eventStylists.filter((stylist) => stylist._id !== stylistId)

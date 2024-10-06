@@ -16,11 +16,14 @@ const ForgotPassword = () => {
 
   const handleSubmit = async (values, { setSubmitting, resetForm }) => {
     try {
-      const response = await fetch("http://localhost:5000/api/auth/forgot", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email: values.email }),
-      });
+      const response = await fetch(
+        "https://backend-gd-events-guvi.onrender.com/api/auth/forgot",
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ email: values.email }),
+        }
+      );
 
       const data = await response.json();
 

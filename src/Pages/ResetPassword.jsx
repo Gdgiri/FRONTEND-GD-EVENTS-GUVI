@@ -23,7 +23,7 @@ const ResetPassword = () => {
   const handleSubmit = async (values, { resetForm }) => {
     try {
       const response = await fetch(
-        `http://localhost:5000/api/auth/reset/${token}`,
+        `https://backend-gd-events-guvi.onrender.com/api/auth/reset/${token}`,
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },

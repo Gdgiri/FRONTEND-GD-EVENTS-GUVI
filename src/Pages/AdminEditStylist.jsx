@@ -19,7 +19,7 @@ const AdminEditStylist = () => {
     const fetchStylistData = async () => {
       try {
         const response = await axios.get(
-          `http://localhost:5000/api/event/getstyleevent/${id}`
+          `https://backend-gd-events-guvi.onrender.com/api/event/getstyleevent/${id}`
         );
         const stylistData = response.data;
         //console.log(stylistData);
@@ -76,7 +76,7 @@ const AdminEditStylist = () => {
 
     try {
       const response = await axios.put(
-        `http://localhost:5000/api/event/updatestylist/${id}`,
+        `https://backend-gd-events-guvi.onrender.com/api/event/updatestylist/${id}`,
         {
           name,
           imgUrl,

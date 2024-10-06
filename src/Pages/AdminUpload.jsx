@@ -75,7 +75,7 @@ const AdminUpload = () => {
       try {
         console.log("Submitting:", values);
         const res = await axios.post(
-          "http://localhost:5000/api/event/createevent",
+          "https://backend-gd-events-guvi.onrender.com/api/event/createevent",
           values
         );
         console.log("Server Response:", res.data);

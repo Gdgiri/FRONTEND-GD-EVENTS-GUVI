@@ -44,23 +44,26 @@ const CheckoutForm = () => {
       }
 
       // Send the payment method to your server
-      const response = await fetch("http://localhost:5000/api/event/payment", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          paymentMethodId: paymentMethod.id,
-          amount: totalAmount * 100, // Convert amount to paise
-        }),
-      });
+      const response = await fetch(
+        "https://backend-gd-events-guvi.onrender.com/api/event/payment",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            paymentMethodId: paymentMethod.id,
+            amount: totalAmount * 100, // Convert amount to paise
+          }),
+        }
+      );
 
       if (!response.ok) {
         throw new Error("Payment failed");
       }
 
       // After successful payment, add booking to the database
-      await fetch("http://localhost:5000/api/bookings", {
+      await fetch("https://backend-gd-events-guvi.onrender.com/api/bookings", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

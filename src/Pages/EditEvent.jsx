@@ -31,7 +31,7 @@ const EditEvent = () => {
     const fetchEventData = async () => {
       try {
         const response = await axios.get(
-          `http://localhost:5000/api/event/getevent/${id}` // Fetching the event data
+          `https://backend-gd-events-guvi.onrender.com/api/event/getevent/${id}` // Fetching the event data
         );
         setEventData(response.data.result); // Set the event data in state
       } catch (error) {
@@ -66,7 +66,7 @@ const EditEvent = () => {
     e.preventDefault(); // Prevent default form submission behavior
     try {
       await axios.put(
-        `http://localhost:5000/api/event/editevent/${id}`,
+        `https://backend-gd-events-guvi.onrender.com/api/event/editevent/${id}`,
         eventData
       ); // Update event data
       alert("Event updated successfully"); // Alert on successful update

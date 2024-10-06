@@ -27,7 +27,7 @@ const VendorDetails = () => {
   const fetchEventDetails = async () => {
     try {
       const response = await axios.get(
-        `http://localhost:5000/api/event/getevent/${id}` // Adjust your API endpoint
+        `https://backend-gd-events-guvi.onrender.com/api/event/getevent/${id}` // Adjust your API endpoint
       );
       setEventDetails(response.data.result);
       setTotalAmount(response.data.result.venueAmount || 0); // Initialize total with venue amount

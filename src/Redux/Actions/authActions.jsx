@@ -1,9 +1,10 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 
-
-const API_URL_REGISTER = "http://localhost:5000/api/auth/register";
-const API_URL_LOGIN = "http://localhost:5000/api/auth/login";
+const API_URL_REGISTER =
+  "https://backend-gd-events-guvi.onrender.com/api/auth/register";
+const API_URL_LOGIN =
+  "https://backend-gd-events-guvi.onrender.com/api/auth/login";
 
 // Register User
 
@@ -44,6 +45,3 @@ export const logout = createAsyncThunk(
     dispatch({ type: "auth/logout" }); // Dispatch a synchronous logout action
   }
 );
-
-
-

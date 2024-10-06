@@ -27,7 +27,7 @@ const WeddingForm = () => {
     e.preventDefault();
     try {
       const response = await axios.post(
-        "http://localhost:5000/api/event/creatwed",
+        "https://backend-gd-events-guvi.onrender.com/api/event/creatwed",
         formData
       );
       //console.log("Form submitted successfully:", response.data.result);

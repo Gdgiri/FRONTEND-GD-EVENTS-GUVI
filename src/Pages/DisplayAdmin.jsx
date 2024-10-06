@@ -16,7 +16,7 @@ const DisplayAdmin = () => {
   const fetchEventData = async () => {
     try {
       const response = await axios.get(
-        "http://localhost:5000/api/event/getallevent"
+        "https://backend-gd-events-guvi.onrender.com/api/event/getallevent"
       );
       setData(response.data.result); // Assuming response has a result field
     } catch (error) {
@@ -28,7 +28,9 @@ const DisplayAdmin = () => {
 
   const handleDelete = async (id) => {
     try {
-      await axios.delete(`http://localhost:5000/api/event/deleteevent/${id}`);
+      await axios.delete(
+        `https://backend-gd-events-guvi.onrender.com/api/event/deleteevent/${id}`
+      );
       setData(data.filter((event) => event._id !== id));
       alert("Event deleted successfully");
     } catch (error) {
