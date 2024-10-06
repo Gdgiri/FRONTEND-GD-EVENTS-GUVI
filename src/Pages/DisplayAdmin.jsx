@@ -68,7 +68,7 @@ const DisplayAdmin = () => {
     <div className="container">
       {/* Search and Add Event button */}
       <div className="d-flex justify-content-between mb-3 m-5">
-        <Link to="/uploadevent" className="btn btn-primary" onClick={handleNav}>
+        <Link to="/createevent" className="btn btn-primary" onClick={handleNav}>
           Add Event
         </Link>
         <div className="input-group" style={{ width: "250px" }}>
