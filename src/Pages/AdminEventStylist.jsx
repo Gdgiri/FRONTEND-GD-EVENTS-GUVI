@@ -51,6 +51,7 @@ const AdminEventStylistList = () => {
   return (
     <div className="container mt-4">
       <h2>Event Stylists</h2>
+      <button className="btn btn-primary">Create</button>
       {errorMessage && <div className="alert alert-danger">{errorMessage}</div>}
       {eventStylists.length === 0 ? (
         <p>No event stylists available.</p>
