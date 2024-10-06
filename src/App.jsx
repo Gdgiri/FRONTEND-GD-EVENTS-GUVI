@@ -52,17 +52,15 @@ const App = () => {
               element={<AuthenticatedRoute element={<UserDashboard />} />}
             />
 
-            <Route element={<AdminDashboardPrivate />}>
-              <Route
-                path="/admin"
-                element={
-                  <AuthenticatedRoute
-                    element={<AdminDashboard />}
-                    adminRoute={true}
-                  />
-                }
-              />
-            </Route>
+            <Route
+              path="/admin"
+              element={
+                <AuthenticatedRoute
+                  element={<AdminDashboard />}
+                  adminRoute={true}
+                />
+              }
+            />
             <Route path="*" element={<PageNot />} />
             <Route path="/not-authorized" element={<NotAuthorized />} />
             <Route path="/profile" element={<Profile />} />
@@ -74,7 +72,7 @@ const App = () => {
             <Route path="/edit/:id" element={<EditEvent />} />
             <Route path="/displayuser" element={<DisplayUser />} />
             <Route path="/vendor-details/:id" element={<VendorDetails />} />
-            
+
             <Route path="/createstylist" element={<CreateEventStylist />} />
             <Route path="/eventstylist" element={<EventStylistList />} />
             <Route
