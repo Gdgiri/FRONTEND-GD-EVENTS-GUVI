@@ -114,7 +114,7 @@ const Navbar = () => {
         <div className="collapse navbar-collapse" id="navbarNavAltMarkup">
           <div className="navbar-nav mx-auto text-center">
             <Link
-              to={isAuthenticated ? "/user" : "/"}
+              to={isAuthenticated ? "/user" : "/login"}
               className={`nav-link ${
                 path === (isAuthenticated ? "/user" : "/login") ? "active" : ""
               }`}
