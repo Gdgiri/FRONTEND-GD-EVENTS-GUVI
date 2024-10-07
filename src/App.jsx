@@ -51,7 +51,7 @@ const App = () => {
             />
 
             <Route
-              path="/admin"
+              path="/"
               element={
                 <AuthenticatedRoute
                   element={<AdminDashboard />}

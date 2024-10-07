@@ -113,7 +113,10 @@ const Navbar = () => {
         {/* Navbar links */}
         <div className="collapse navbar-collapse" id="navbarNavAltMarkup">
           <div className="navbar-nav mx-auto text-center">
-            <Link to="/" className={`nav-link ${path === "/" ? "active" : ""}`}>
+            <Link
+              to="/user"
+              className={`nav-link ${path === "/user" ? "active" : ""}`}
+            >
               Home
             </Link>
             <Link
