@@ -129,6 +129,10 @@ const Login = () => {
                   </button>
                 </div>
                 <div className="mt-3 text-center">
+                  <span>New User</span>
+                  <Link to="/register">Register</Link>
+                </div>
+                <div className="mt-3 text-center">
                   <Link to="/forgot">Forgot password?</Link>
                 </div>
               </Form>
