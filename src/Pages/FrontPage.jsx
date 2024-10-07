@@ -26,8 +26,8 @@ const FrontPage = () => {
             moments that matter. Explore our offerings and start your journey
             with us.
           </p>
-          <Link to="/register" className="btn btn-primary btn-lg mb-3">
-            Register Now
+          <Link to="/user" className="btn btn-primary btn-lg mb-3">
+            Continue
           </Link>
           
         </div>
