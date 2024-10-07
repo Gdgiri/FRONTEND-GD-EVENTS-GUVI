@@ -116,7 +116,7 @@ const Navbar = () => {
             <Link
               to={isAuthenticated ? "/user" : "/"}
               className={`nav-link ${
-                path === (isAuthenticated ? "/user" : "/") ? "active" : ""
+                path === (isAuthenticated ? "/user" : "/login") ? "active" : ""
               }`}
             >
               Home
