@@ -133,6 +133,12 @@ const Navbar = () => {
             >
               Services
             </Link>
+            <Link
+              to="/booked"
+              className={`nav-link ${path === "/booked" ? "active" : ""}`}
+            >
+              Booked
+            </Link>
           </div>
 
           {/* User Dropdown or Login Button */}
